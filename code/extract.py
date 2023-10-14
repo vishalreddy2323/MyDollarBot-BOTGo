@@ -21,16 +21,6 @@ def run(message, bot):
             writer = csv.writer(file)
             writer.writerow(column_names)
             writer.writerows(rows)
-        
-        
-        """
-        TODO
-        1. Convert user_history to csv
-        2. Think about separating attributes from the string
-        3. Delete file from local after sending
-        """
-    
-
         # Send the file to the user
         with open(file_path, 'rb') as file:
             bot.send_document(chat_id, document=file)
