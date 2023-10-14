@@ -12,6 +12,7 @@ import delete
 import add
 import budget
 import category
+import extract
 import add_recurring
 from datetime import datetime
 from jproperties import Properties
@@ -107,6 +108,9 @@ def command_budget(message):
 def command_category(message):
     category.run(message, bot)
 
+@bot.message_handler(commands=['extract'])
+def command_extract(message):
+    extract.run(message, bot)
 
 # not used
 def addUserHistory(chat_id, user_record):
