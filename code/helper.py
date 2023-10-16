@@ -49,7 +49,8 @@ commands = {
     'edit': 'Edit/Change spending details',
     'budget': 'Add/Update/View/Delete budget',
     'category': 'Add/Delete/Show custom categories',
-    'extract': 'Extract data into CSV'
+    'extract': 'Extract data into CSV',
+    'send_email_to_user': 'Email CSV to user'
 }
 
 dateFormat = '%d-%b-%Y'
