@@ -5,8 +5,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 import smtplib
 import ssl
-
 from email import encoders
+import os.path
+from telebot import types
+
 # Function to send an email
 def send_email(user_email, subject, message, attachment_path):
     smtp_port = 587                 # Standard secure SMTP port
@@ -82,5 +84,10 @@ def process_email_input(message):
     email_subject = "DollarBot Budget Report"
     email_message = f"Hello {user_email},\n\nPFA the budget report that you requested."
 
+    check_file = os.path.isfile('code/data.csv')
     # Send the email
-    send_email(user_email, email_subject, email_message, 'code/data.csv')
+    if check_file:
+        send_email(user_email, email_subject, email_message, 'code/data.csv')
+    # else:
+    #     chat_id = message.chat.id
+    #     bot.send_message(chat_id, "Please generate CSV first")
