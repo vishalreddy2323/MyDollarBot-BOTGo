@@ -7,7 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      
+
+    - name: Install dependencies
+      run: |
+        pip3 install pytest
     - name: Test with pytest
       run: |
         python -m pytest test/
