@@ -1,16 +1,28 @@
-name: Python application test with Github Actions
+name: Python Test
 
-on: [push]
+on:
+    schedule:
+      - cron: '0 4,16 * * *'  # Run at 12 AM ET and 12 PM ET
+    push:
+      branches:
+        - main
+        - dev  # Add the second branch you want to monitor
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        pip install pytest
-    - name: Test with pytest
-      run: |
-        python -m pytest test/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9  # Choose the Python version you need
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        run: python -m pytest test/
