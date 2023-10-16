@@ -10,7 +10,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip3 install pytest
+        pip install pytest
     - name: Test with pytest
       run: |
         python -m pytest test/
