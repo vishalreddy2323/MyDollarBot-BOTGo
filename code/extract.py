@@ -24,6 +24,6 @@ def run(message, bot):
             # Send the file to the user
             with open(file_path, 'rb') as file:
                 bot.send_document(chat_id, document=file)
-            os.remove(file_path)    
+            # os.remove(file_path)    
     except Exception as e:
         logging.error(str(e))
