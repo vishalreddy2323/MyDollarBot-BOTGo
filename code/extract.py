@@ -13,6 +13,8 @@ def run(message, bot):
         user_history = helper.getUserHistory(chat_id)
         if not user_history:
             bot.send_message(chat_id, "no data to generate csv")
+            return None
+        
         else:   
             file_path = 'code/data.csv'
             rows = [line.split(',') for line in user_history]
@@ -21,9 +23,11 @@ def run(message, bot):
                 writer = csv.writer(file)
                 writer.writerow(column_names)
                 writer.writerows(rows)
+                
             # Send the file to the user
             with open(file_path, 'rb') as file:
                 bot.send_document(chat_id, document=file)
-            os.remove(file_path)    
+                return file_path
+            # os.remove(file_path)    
     except Exception as e:
         logging.error(str(e))

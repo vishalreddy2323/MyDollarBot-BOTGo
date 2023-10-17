@@ -4,13 +4,10 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 import smtplib
-import ssl
 from email import encoders
 import os.path
-from telebot import types
 import threading
-import helper
-import csv
+import extract
 
 extract_complete = threading.Event()
 # Function to send an email
@@ -67,42 +64,36 @@ def send_email(user_email, subject, message, attachment_path):
     # Close the port
     TIE_server.quit()
 
+
 # Function to run the main process
 def run(message, bot):
     try:
         chat_id = message.chat.id
-        # with open('code/data.csv', 'rb') as file:
-        #     bot.send_document(chat_id, document=file) 
-        bot.send_message(chat_id, 'Extracting data')
-        user_history = helper.getUserHistory(chat_id)
-        if not user_history:
-            bot.send_message(chat_id, "no data to generate csv, hence email not being sent")
-        else:   
-            file_path = 'code/data.csv'
-            rows = [line.split(',') for line in user_history]
-            column_names = ['Date and Time', 'Category', 'Amount']
-            with open(file_path, mode='w', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(column_names)
-                writer.writerows(rows)
-            # Send the file to the user
-            message = bot.send_message(chat_id, 'Please enter your email: ')
-            bot.register_next_step_handler(message, process_email_input)     
-            #os.remove(file_path)    
+        message = bot.send_message(chat_id, 'Please enter your email: ')
+        bot.register_next_step_handler(message, process_email_input, bot)        
     except Exception as e:
-        logging.error(str(e))    
+        logging.error(str(e))
 
 
 # Function for sending all parameters to email
-def process_email_input(message):
-    user_email = message.text
+def process_email_input(message, bot):
+    try:
+        chat_id = message.chat.id
+        user_email = message.text
 
-    # Compose the email
-    email_subject = "DollarBot Budget Report"
-    email_message = f"Hello {user_email},\n\nPFA the budget report that you requested."
+        # Compose the email
+        email_subject = "DollarBot Budget Report"
+        email_message = f"Hello {user_email},\n\nPFA the budget report that you requested."
 
-    check_file = os.path.isfile('code/data.csv')
-    # Send the email
-    if check_file:
-        send_email(user_email, email_subject, email_message, 'code/data.csv')
-        os.remove('code/data.csv')
+        # Check if data.csv exists; if present send email, if not present call extract function and then send email
+        check_file = os.path.isfile('code/data.csv')
+        if check_file:
+            send_email(user_email, email_subject, email_message, 'code/data.csv')
+        else:
+            file_path = extract.run(message, bot)
+            send_email(user_email, email_subject, email_message, file_path)
+
+        message = bot.send_message(chat_id, 'Email sent successfully!') 
+
+    except Exception as e:
+        logging.error(str(e))
