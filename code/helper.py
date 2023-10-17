@@ -15,19 +15,21 @@ update_options = {
 budget_options = {
     'update': 'Add/Update',
     'view': 'View',
+    'max_spend': 'Transaction Max Spend Limit',
     'delete': 'Delete'
 }
 
 budget_types = {
     'overall': 'Overall Budget',
-    'category': 'Category-Wise Budget'
+    'category': 'Category-Wise Budget',
 }
 
 data_format = {
     'data': [],
     'budget': {
         'overall': None,
-        'category': None
+        'category': None,
+        'max_per_txn_spend': None
     }
 }
 
@@ -140,6 +142,12 @@ def getCategoryBudget(chatId):
         return None
     return data['budget']['category']
 
+def getMaxTransactionLimit(chatId):
+    data = getUserData(chatId)
+    if data is None or 'budget' not in data or 'max_per_txn_spend' not in data['budget']:
+        return None
+    return data['budget']['max_per_txn_spend']
+
 
 def getCategoryBudgetByCategory(chatId, cat):
     if not isCategoryBudgetByCategoryAvailable(chatId, cat):
@@ -165,6 +173,9 @@ def isCategoryBudgetByCategoryAvailable(chatId, cat):
     if data is None:
         return False
     return cat in data.keys()
+
+def isMaxTransactionLimitAvailable(chatId):
+    return getMaxTransactionLimit(chatId) is not None
 
 
 def display_remaining_budget(message, bot, cat):
@@ -238,6 +249,7 @@ def getSpendCategories():
     with open("categories.txt", "r") as tf:
         spend_categories = tf.read().split(',')
     return spend_categories
+
 def getplot():
     return plot
 

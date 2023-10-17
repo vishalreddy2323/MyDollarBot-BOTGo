@@ -31,6 +31,7 @@ def post_type_selection(message, bot):
             update_overall_budget(chat_id, bot)
         elif op == options['category']:
             update_category_budget(message, bot)
+        # TODO
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
