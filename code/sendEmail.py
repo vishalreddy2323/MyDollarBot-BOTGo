@@ -8,7 +8,11 @@ import ssl
 from email import encoders
 import os.path
 from telebot import types
+import threading
+import helper
+import csv
 
+extract_complete = threading.Event()
 # Function to send an email
 def send_email(user_email, subject, message, attachment_path):
     smtp_port = 587                 # Standard secure SMTP port
@@ -69,12 +73,25 @@ def run(message, bot):
         chat_id = message.chat.id
         # with open('code/data.csv', 'rb') as file:
         #     bot.send_document(chat_id, document=file) 
-
-        message = bot.send_message(chat_id, 'Please enter your email: ')
-        bot.register_next_step_handler(message, process_email_input)        
-
+        bot.send_message(chat_id, 'Extracting data')
+        user_history = helper.getUserHistory(chat_id)
+        if not user_history:
+            bot.send_message(chat_id, "no data to generate csv, hence email not being sent")
+        else:   
+            file_path = 'code/data.csv'
+            rows = [line.split(',') for line in user_history]
+            column_names = ['Date and Time', 'Category', 'Amount']
+            with open(file_path, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(column_names)
+                writer.writerows(rows)
+            # Send the file to the user
+            message = bot.send_message(chat_id, 'Please enter your email: ')
+            bot.register_next_step_handler(message, process_email_input)     
+            #os.remove(file_path)    
     except Exception as e:
-        logging.error(str(e))
+        logging.error(str(e))    
+
 
 # Function for sending all parameters to email
 def process_email_input(message):
@@ -88,6 +105,4 @@ def process_email_input(message):
     # Send the email
     if check_file:
         send_email(user_email, email_subject, email_message, 'code/data.csv')
-    # else:
-    #     chat_id = message.chat.id
-    #     bot.send_message(chat_id, "Please generate CSV first")
+        os.remove('code/data.csv')

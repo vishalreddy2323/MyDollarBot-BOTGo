@@ -13,7 +13,7 @@ import add
 import budget
 import category
 import extract
-import send_email_to_user
+import sendEmail
 import add_recurring
 from datetime import datetime
 from jproperties import Properties
@@ -113,9 +113,9 @@ def command_category(message):
 def command_extract(message):
     extract.run(message, bot)
 
-@bot.message_handler(commands=['send_email_to_user'])
-def command_send_email_to_user(message):
-    send_email_to_user.run(message, bot)
+@bot.message_handler(commands=['sendEmail'])
+def command_sendEmail(message):
+    sendEmail.run(message, bot)
 
 # not used
 def addUserHistory(chat_id, user_record):
