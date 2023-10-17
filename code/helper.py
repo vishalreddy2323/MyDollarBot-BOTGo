@@ -103,6 +103,12 @@ def validate_entered_duration(duration_entered):
             return str(duration)
     return 0
 
+def validate_transaction_limit(chat_id, amount_value, bot):
+    if isMaxTransactionLimitAvailable(chat_id):
+            maxLimit = round(float(getMaxTransactionLimit(chat_id)), 2)
+            if round(float(amount_value), 2) >= maxLimit:
+                bot.send_message(chat_id, 'Warning! You went over your transaction spend limit')
+
 
 def getUserHistory(chat_id):
     data = getUserData(chat_id)
