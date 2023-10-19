@@ -6,11 +6,11 @@
 |1	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| [https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md](https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md) |	
 |1	| Docs: doco generated , format not ugly|	[https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs](https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs)|
 |.5	| evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	| |
-|.5	| evidence that the members of the team are working across multiple places in the code base|	https://github.com/sak007/MyDollarBot-BOTGo/pulse|
-|1	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/sak007/MyDollarBot-BOTGo/tree/main/docs|
-|.5	| Number of commits: by different people| https://github.com/sak007/MyDollarBot-BOTGo/graphs/commit-activity	|
-|1	| issues are being closed| 26 Issues closed -> https://github.com/sak007/MyDollarBot-BOTGo/issues |
-|.5	| issues are discussed before they are closed|	Each issue updated with the discussion before closing and comments added -> https://github.com/sak007/MyDollarBot-BOTGo/issues|
+|.5	| evidence that the members of the team are working across multiple places in the code base|	[https://github.com/anuj672/MyDollarBot-BOTGo/pulse](https://github.com/anuj672/MyDollarBot-BOTGo/pulse)|
+|1	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs|
+|1	| Number of commits: by different people| https://github.com/sak007/MyDollarBot-BOTGo/graphs/commit-activity	https://github.com/anuj672/MyDollarBot-BOTGo/pulse|
+|1	| issues are being closed| 35 Issues closed -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed |
+|.5	| issues are discussed before they are closed|	Each issue updated with the discussion before closing and comments added -> https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed|
 |.5	| Use of syntax checkers.| Use of Flake8, updated in travis.yml -> https://github.com/sak007/MyDollarBot-BOTGo/blob/main/.travis.yml|
 |1	| Issues reports: |https://github.com/sak007/MyDollarBot-BOTGo/issues |
 |.5	| Use of code formatters.| config files in GH showing your this formatter's config| Use of Flake8, updated in travis.yml -> https://github.com/sak007/MyDollarBot-BOTGo/blob/main/.travis.yml |
