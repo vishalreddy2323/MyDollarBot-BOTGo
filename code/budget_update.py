@@ -2,7 +2,6 @@ import helper
 import logging
 from telebot import types
 
-
 def run(message, bot):
     chat_id = message.chat.id
     if helper.isOverallBudgetAvailable(chat_id):
@@ -17,7 +16,6 @@ def run(message, bot):
             markup.add(c)
         msg = bot.reply_to(message, 'Select Budget Type', reply_markup=markup)
         bot.register_next_step_handler(msg, post_type_selection, bot)
-
 
 def post_type_selection(message, bot):
     try:
@@ -35,7 +33,6 @@ def post_type_selection(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
-
 def update_overall_budget(chat_id, bot):
     if (helper.isOverallBudgetAvailable(chat_id)):
         currentBudget = helper.getOverallBudget(chat_id)
@@ -44,7 +41,6 @@ def update_overall_budget(chat_id, bot):
     else:
         message = bot.send_message(chat_id, 'How much is your monthly budget? \n(Enter numeric values only)')
     bot.register_next_step_handler(message, post_overall_amount_input, bot)
-
 
 def post_overall_amount_input(message, bot):
     try:
@@ -62,7 +58,6 @@ def post_overall_amount_input(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
-
 def update_category_budget(message, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     categories = helper.getSpendCategories()
@@ -71,7 +66,6 @@ def update_category_budget(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, 'Select Category', reply_markup=markup)
     bot.register_next_step_handler(msg, post_category_selection, bot)
-
 
 def post_category_selection(message, bot):
     try:
@@ -90,7 +84,6 @@ def post_category_selection(message, bot):
         bot.register_next_step_handler(message, post_category_amount_input, bot, selected_category)
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
-
 
 def post_category_amount_input(message, bot, category):
     try:
@@ -111,7 +104,6 @@ def post_category_amount_input(message, bot, category):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
-
 def post_category_add(message, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     options = helper.getUpdateOptions().values()
@@ -120,7 +112,6 @@ def post_category_add(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, 'Select Option', reply_markup=markup)
     bot.register_next_step_handler(msg, post_option_selection, bot)
-
 
 def post_option_selection(message, bot):
     print("here")
