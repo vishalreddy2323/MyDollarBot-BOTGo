@@ -83,6 +83,8 @@ Follow the instructions on screen and choose a name for your bot. After this, se
    bash run.sh
 ```
 
+(Please Note: You may require to run `chmod +x run.sh` on mac/linux)
+
 A successful run will generate a message on your terminal that says "TeleBot: Started polling." 
 
 7. In the Telegram app, search for your newly created bot by entering the username and open the same. Now, on Telegram, enter the "/start" or "/menu" command, and you are all set to track your expenses!
