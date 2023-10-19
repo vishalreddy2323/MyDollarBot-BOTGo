@@ -19,7 +19,8 @@ This video shows only the new features and enhancement of some older features. A
 [![GitHub issues](https://img.shields.io/github/issues/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed)
 
-![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot?style=social)
+![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot-BOTGol)
+
 <hr>
 
 ## About TrackMyDollar
