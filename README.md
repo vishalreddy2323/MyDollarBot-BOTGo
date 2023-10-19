@@ -18,8 +18,7 @@ This video shows only the new features and enhancement of some older features. A
 <!-- [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo) -->
 [![GitHub issues](https://img.shields.io/github/issues/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed)
-
-![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot-BOTGol)
+![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot-BOTGo)
 
 <hr>
 
@@ -73,7 +72,7 @@ Follow the instructions on screen and choose a name for your bot. After this, se
 
 4. BotFather will now confirm the creation of your bot and provide a TOKEN to access the HTTP API - copy and save this token for future use.
 
-5. Copy the token provided by the bot and add/replace it in the user.properties file (in the format api_token=your_token).
+5. Copy the token provided by the bot and add/replace it in the user.properties file (in the format api_token=<your_token>).
 
 6. In the directory where this repo has been cloned, please run the below command to execute a bash script to run the Telegram Bot:
 ```
