@@ -93,7 +93,7 @@ A successful run will generate a message on your terminal that says "TeleBot: St
 
 We use pytest to perform testing on all unit tests together. The command needs to be run from the home directory of the project. The command is:
 ```
-python run -m pytest test/
+python -m pytest test/
 ```
 
 ## Code Coverage
