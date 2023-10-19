@@ -24,7 +24,7 @@
 |1	| Test cases are routinely executed	| Cron Jobs in yml files |
 |3	| Documentation describing how this version improves on the older version| Updated README.md to show the Delta -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md	|
 |3	| This version is a little(1), some(2), much(3) improved on the last version. | Tutor's assessment |
-|   | Total	| |
+|66   | Total	| |
 |Y| 1.1 Does your website and documentation provide a clear, high-level overview of your software? | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
 |Y| 1.2: Does your website and documentation clearly describe the type of user who should use your software?   | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
 |N| 1.3: Do you publish case studies to show how your software has been used by yourself and others? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/docs/history.md |
