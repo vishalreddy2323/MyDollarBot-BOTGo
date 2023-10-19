@@ -1,4 +1,4 @@
-name: Python Test
+name: Test and Formatting
 
 on:
     schedule:
