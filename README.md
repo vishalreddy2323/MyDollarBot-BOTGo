@@ -15,11 +15,11 @@ This video shows only the new features and enhancement of some older features. A
 [![GitHub contributors](https://img.shields.io/github/contributors/anuj672/MyDollarBot-BOTGo)](https://github.com/anuj672/MyDollarBot-BOTGo/graphs/contributors)
 [![DOI](https://zenodo.org/badge/414661894.svg)](https://zenodo.org/badge/latestdoi/414661894)
 [![Test and Formatting](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml/badge.svg)](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
-[![GitHub issues](https://img.shields.io/github/issues/prithvish-doshi-17/MyDollarBot-BOTGo)](https://github.com/prithvish-doshi-17/MyDollarBot-BOTGo/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/prithvish-doshi-17/MyDollarBot-BOTGo)](https://github.com/prithvish-doshi-17/MyDollarBot-BOTGo/issues?q=is%3Aissue+is%3Aclosed)
+<!-- [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo) -->
+[![GitHub issues](https://img.shields.io/github/issues/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed)
 
-![Fork](https://img.shields.io/github/forks/deekay2310/MyDollarBot?style=social)
+![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot?style=social)
 <hr>
 
 ## About TrackMyDollar
@@ -31,29 +31,23 @@ With simple commands, this bot allows you to:
 - Display your spending history
 - Clear/Erase all your records
 - Edit/Change any spending details if you wish to
+- Add a recurring expense 
+- User can add a new category and delete an existing category 
+- User can see the budget value for the total expense 
+- Added pie charts, bar graphs with and without budget lines 
+- Deployment on GCP 
 
+## What's new? (From Phase 3 to Phase 4)
 
-## What's new? (From Phase 2 to Phase 3)
+- Email Transaction History: Users can request their complete transaction history via email for easy access and record-keeping.
+- CSV Transaction History Extraction: Users can download their transaction history in CSV format, providing a versatile data export option for analysis.
+- Receipt Management: Users can upload and retrieve receipts for specific transactions by date, simplifying expense tracking and documentation.
+- Transaction Limit Notifications: Users can set transaction limits and receive alerts when expenses exceed the specified limits, helping them stay within budget.
+- Github Actions Automation: Automated testing, code formatting, and syntax checks have been implemented through Github Actions. A minimum 80% code coverage is required for successful builds, ensuring code quality and testing standards are maintained.
 
-- Recurring expense:
-  Add a recurring expense that adds a certain amount every month to the user's spending, for any given category.
-  
-- Custom category:
-  User can add a new category and delete an existing category as per the needs
-  
-- Budgeting:
-  User can see the budget value for the total expense and/or for each of the existing categories in the /display function
-  
-- Better visualization:
-  Added pie charts, bar graphs with and without budget lines for the user to have a look at the spending history in a better manner
-  Added bar graph in the /history command to see spending across different categories
-  User can see the daily and monthly expenses for spending history
-  
-- Deployment on GCP (the bot is now available, and can be used on any device by searching for @testforbudgetmanagerbot on Telegram)
 
 ## What more can be done?
-Please refer to the issue list available [here](https://github.com/prithvish-doshi-17/MyDollarBot-BOTGo/issues) to see what more can be done to make MyDollarBot better. Please refer to the MyDollarBot project present [here](https://github.com/prithvish-doshi-17/MyDollarBot-BOTGo/projects) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
-
+Please refer to the issue list available [here](https://github.com/anuj672/MyDollarBot-BOTGo/issues) to see what more can be done to make MyDollarBot better. Please refer to the MyDollarBot project present [here](https://github.com/bhaveshittadwar/csc-510-se-group-49/projects) to have a look at the tasks done or in progress
 
 ## Demo
 
@@ -78,7 +72,9 @@ Follow the instructions on screen and choose a name for your bot. After this, se
 
 4. BotFather will now confirm the creation of your bot and provide a TOKEN to access the HTTP API - copy and save this token for future use.
 
-5. In the directory where this repo has been cloned, please run the below command to execute a bash script to run the Telegram Bot:
+5. Copy the token provided by the bot and add/replace it in the user.properties file (in the format api_token=your_token).
+
+6. In the directory where this repo has been cloned, please run the below command to execute a bash script to run the Telegram Bot:
 ```
    ./run.sh
 ```
@@ -86,10 +82,10 @@ Follow the instructions on screen and choose a name for your bot. After this, se
 ```
    bash run.sh
 ```
-Please note that it will ask you to paste the API token you received from Telegram in step 4.
+
 A successful run will generate a message on your terminal that says "TeleBot: Started polling." 
 
-6. In the Telegram app, search for your newly created bot by entering the username and open the same. Now, on Telegram, enter the "/start" or "/menu" command, and you are all set to track your expenses!
+7. In the Telegram app, search for your newly created bot by entering the username and open the same. Now, on Telegram, enter the "/start" or "/menu" command, and you are all set to track your expenses!
 
 ## Testing
 
@@ -109,14 +105,17 @@ coverage run -m pytest test/
 coverage report
 ```
 
+Please note: A coverage below 80% will cause the build to fail.
+
 ## Notes:
 You can download and install the Telegram desktop application for your system from the following site: https://desktop.telegram.org/
 
 
 <hr>
 <p>Title:'Track My Dollar'</p>
-<p>Version: '3.1'</p>
+<p>Version: '4.0'</p>
 <p>Description: 'An easy to use Telegram Bot to track everyday expenses'</p>
+<p>Authors(Iteration 4):'Anuj, Bhavesh, Jash, Vaibhavi'</p>
 <p>Authors(Iteration 3):'Vraj, Alex, Leo, Prithvish, Seeya'</p>
 <p>Authors(Iteration 2):'Athithya, Subramanian, Ashok, Zunaid, Rithik'</p>
 <p>Authors(Iteration 1):'Dev, Prakruthi, Radhika, Rohan, Sunidhi'</p>
