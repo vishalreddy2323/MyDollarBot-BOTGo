@@ -6,7 +6,6 @@ from jproperties import Properties
 import requests
 import os
 
-
 option = {}
 
 configs = Properties()

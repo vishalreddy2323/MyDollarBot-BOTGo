@@ -33,3 +33,7 @@ This function is the main entry point for data extraction and CSV report generat
 This script is a modular component that can be incorporated into a larger project for data extraction and report generation.
 
 It is recommended to include additional information on how to integrate this functionality within your project's documentation or README when posting it on GitHub.
+
+## Test
+1. Check if csv is generated when there is data stored in the bot.
+2. Check if csv is not generated and the bot does not error.

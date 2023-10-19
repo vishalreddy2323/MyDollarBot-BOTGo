@@ -24,7 +24,7 @@ def post_operation_selection(message, bot):
         options = helper.getBudgetOptions()
         if op not in options.values():
             bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
-            raise Exception("Sorry I don't recognise this operation \"{}\"!".format(op))
+            raise Exception("Sorry, I don't recognise this operation \"{}\"!".format(op))
         if op == options['update']:
             budget_update.run(message, bot)
         elif op == options['view']:
@@ -35,5 +35,4 @@ def post_operation_selection(message, bot):
             budget_max.run(message, bot)
 
     except Exception as e:
-        # print("hit exception")
         helper.throw_exception(e, message, bot, logging)

@@ -83,6 +83,8 @@ Follow the instructions on screen and choose a name for your bot. After this, se
    bash run.sh
 ```
 
+(Please Note: You may require to run `chmod +x run.sh` on mac/linux)
+
 A successful run will generate a message on your terminal that says "TeleBot: Started polling." 
 
 7. In the Telegram app, search for your newly created bot by entering the username and open the same. Now, on Telegram, enter the "/start" or "/menu" command, and you are all set to track your expenses!
@@ -91,7 +93,7 @@ A successful run will generate a message on your terminal that says "TeleBot: St
 
 We use pytest to perform testing on all unit tests together. The command needs to be run from the home directory of the project. The command is:
 ```
-python run -m pytest test/
+python -m pytest test/
 ```
 
 ## Code Coverage
@@ -113,7 +115,7 @@ You can download and install the Telegram desktop application for your system fr
 
 <hr>
 <p>Title:'Track My Dollar'</p>
-<p>Version: '4.0'</p>
+<p>Version: '4.2'</p>
 <p>Description: 'An easy to use Telegram Bot to track everyday expenses'</p>
 <p>Authors(Iteration 4):'Anuj, Bhavesh, Jash, Vaibhavi'</p>
 <p>Authors(Iteration 3):'Vraj, Alex, Leo, Prithvish, Seeya'</p>
