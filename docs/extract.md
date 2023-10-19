@@ -18,3 +18,18 @@ This function is the main entry point for data extraction and CSV report generat
 5. If the file does not exist, the script calls a separate method to extract the required data.
 6. The extracted data is then saved as a CSV report.
 7. The CSV report is sent to the user as a document.
+
+### Dependencies
+- The script does not have any external dependencies but may rely on other methods or modules within the larger project.
+
+## Usage
+1. Users initiate data extraction by calling the script.
+2. The script checks for the availability of the "data.csv" file.
+3. If the file exists, it is used as the data source.
+4. If the file is not present, data extraction is performed using another method.
+5. The extracted data is saved as a CSV report.
+6. The user receives the CSV report as a document.
+
+This script is a modular component that can be incorporated into a larger project for data extraction and report generation.
+
+It is recommended to include additional information on how to integrate this functionality within your project's documentation or README when posting it on GitHub.
