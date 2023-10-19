@@ -25,30 +25,30 @@
 |3	| Documentation describing how this version improves on the older version| Updated README.md to show the Delta -> https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/README.md	|
 |3	| This version is a little(1), some(2), much(3) improved on the last version. | Tutor's assessment |
 |   | Total	| |
-| | 1.1 Does your website and documentation provide a clear, high-level overview of your software? ||
-| | 1.2: Does your website and documentation clearly describe the type of user who should use your software?   ||
-| | 1.3: Do you publish case studies to show how your software has been used by yourself and others? ||
-| | 2.1: Is the name of your project/software unique?   ||
-| | 2.2: Is your project/software name free from trademark violations? ||
-| | 3.1: Is your software available as a package that can be deployed without building it? ||
-| | 3.2: Is your software available for free?  ||
-| | 3.3: Is your source code publicly available to download, either as a downloadable bundle or via access to a source code repository? ||
-| | 3.4: Is your software hosted in an established, third-party repository likeGitHub (https://github.com), BitBucket (https://bitbucket.org),LaunchPad (https://launchpad.net) orSourceForge (https://sourceforge.net) ||
-| | 4.1: Is your documentation clearly available on your website or within your software? ||
-| | 4.2: Does your documentation include a "quick start" guide, that provides a short overview of how to use your software with some basic examples of use?  ||
-| | 4.3: If you provide more extensive documentation, does this provide clear, step-by-step instructions on how to deploy and use your software? ||
-| | 4.4: Do you provide a comprehensive guide to all your software’s commands, functions and options?  ||
-| | 4.5: Do you provide troubleshooting information that describes the symptoms and step-by-step solutions for problems and error messages?    ||
-| | 4.6: If your software can be used as a library, package or service by other software, do you provide comprehensive API documentation?  ||
-| | 4.7: Do you store your documentation under revision control with your source code?  ||
-| | 4.8: Do you publish your release history e.g. release data, version numbers, key features of each release etc. on your web site or in your documentation? ||
-| | 5.1: Does your software describe how a user can get help with using your software?  ||
-| | 5.2: Does your website and documentation describe what support, if any, you provide to users and developers? ||
-| | 5.3: Does your project have an e-mail address or forum that is solely for supporting users?  ||
-| | 5.4: Are e-mails to your support e-mail address received by more than one person? ||
-| | 5.5: Does your project have a ticketing system to manage bug reports and feature requests? ||
-| | 5.6: Is your project's ticketing system publicly visible to your users, so they can view bug reports and feature requests? ||
-| | 6.1: Is your software’s architecture and design modular?  ||
+|Y| 1.1 Does your website and documentation provide a clear, high-level overview of your software? | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
+|Y| 1.2: Does your website and documentation clearly describe the type of user who should use your software?   | https://github.com/anuj672/MyDollarBot-BOTGo#readme |
+|N| 1.3: Do you publish case studies to show how your software has been used by yourself and others? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/docs/history.md |
+|Y| 2.1: Is the name of your project/software unique?   ||
+|Y| 2.2: Is your project/software name free from trademark violations? ||
+|N| 3.1: Is your software available as a package that can be deployed without building it? ||
+|Y| 3.2: Is your software available for free?  ||
+|Y| 3.3: Is your source code publicly available to download, either as a downloadable bundle or via access to a source code repository? ||
+|Y| 3.4: Is your software hosted in an established, third-party repository likeGitHub (https://github.com), BitBucket (https://bitbucket.org),LaunchPad (https://launchpad.net) orSourceForge (https://sourceforge.net) ||
+|Y| 4.1: Is your documentation clearly available on your website or within your software? ||
+|Y| 4.2: Does your documentation include a "quick start" guide, that provides a short overview of how to use your software with some basic examples of use?  ||
+|Y| 4.3: If you provide more extensive documentation, does this provide clear, step-by-step instructions on how to deploy and use your software? ||
+|Y| 4.4: Do you provide a comprehensive guide to all your software’s commands, functions and options?  ||
+|N| 4.5: Do you provide troubleshooting information that describes the symptoms and step-by-step solutions for problems and error messages?    ||
+|N| 4.6: If your software can be used as a library, package or service by other software, do you provide comprehensive API documentation?  ||
+|N| 4.7: Do you store your documentation under revision control with your source code?  ||
+|Y| 4.8: Do you publish your release history e.g. release data, version numbers, key features of each release etc. on your web site or in your documentation? ||
+|N| 5.1: Does your software describe how a user can get help with using your software?  ||
+|N| 5.2: Does your website and documentation describe what support, if any, you provide to users and developers? ||
+|N| 5.3: Does your project have an e-mail address or forum that is solely for supporting users?  ||
+|Y| 5.4: Are e-mails to your support e-mail address received by more than one person? | https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md, two email ids present|
+|Y| 5.5: Does your project have a ticketing system to manage bug reports and feature requests? | https://github.com/users/bhaveshittadwar/projects/3/views/1 |
+|Y| 5.6: Is your project's ticketing system publicly visible to your users, so they can view bug reports and feature requests? | it is a public github repo |
+|Y| 6.1: Is your software’s architecture and design modular?  ||
 | |  ||
 | |  ||
 | |  ||
