@@ -18,7 +18,7 @@ This video shows only the new features and enhancement of some older features. A
 <!-- [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo) -->
 [![GitHub issues](https://img.shields.io/github/issues/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed)
-![Fork](https://img.shields.io/github/forks/prithvish-doshi-17/MyDollarBot-BOTGo)
+![Fork](https://img.shields.io/github/forks/anuj672/MyDollarBot-BOTGo)
 
 <hr>
 
