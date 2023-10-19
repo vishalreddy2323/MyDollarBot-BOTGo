@@ -56,3 +56,7 @@ Remember to set up the Gmail account and application-specific password before us
 
 This script is designed for use with the DollarBot application to send budget reports to users via email.
 You can use this Markdown document as a README to describe the functionality and usage of your script on GitHub.
+
+## Test
+
+The tests checks is the http client connection has been correctly configured or not.
