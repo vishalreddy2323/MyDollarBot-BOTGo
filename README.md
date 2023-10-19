@@ -115,7 +115,7 @@ You can download and install the Telegram desktop application for your system fr
 
 <hr>
 <p>Title:'Track My Dollar'</p>
-<p>Version: '4.0'</p>
+<p>Version: '4.2'</p>
 <p>Description: 'An easy to use Telegram Bot to track everyday expenses'</p>
 <p>Authors(Iteration 4):'Anuj, Bhavesh, Jash, Vaibhavi'</p>
 <p>Authors(Iteration 3):'Vraj, Alex, Leo, Prithvish, Seeya'</p>
