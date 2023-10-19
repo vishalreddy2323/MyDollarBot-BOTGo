@@ -2,39 +2,28 @@
 This feature enables the user to retrieve receipts in an image format of their expenses for a particular date.
 Currently we have the following expense categories set by default:
 
-# File: receipt_bot.py
+# Location of Code for this Feature
+The code that implements this feature can be found [here](https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/code/receipt.py)
 
-This Markdown document provides a concise overview of the Python script named `receipt_bot.py`. This script is responsible for implementing a Telegram bot that allows users to retrieve receipts based on a specified date.
+## Core Descriptions and functions
 
-## Overview
-The script uses several Python libraries and the Telegram Bot API to interact with users. It reads configuration data from a `user.properties` file, including the Telegram API token required for the bot to function.
+1. command_receipt(message, bot):
+Accepts a `message` object and a `bot` instance as parameters. Requests the user to input a date in the format `YYYY-MM-DD` or `YYYYMMDD`.
 
-## Dependencies
-The script relies on the following Python libraries:
-- `logging`: Used for error logging.
-- `telebot`: Provides functionalities to interact with the Telegram Bot API.
-- `jproperties`: Used for reading configuration data from `user.properties`.
-- `datetime`: Required for date format validation.
-- `glob`: Used for searching and retrieving receipts.
+2. process_date_input(message):
+Accepts a `message` objects. Formats the date given by the user as per the naming convention of the stored receipts. Searches the receipt for the given date in the receipts folder and returns all receipts for the given date. If there are no receipts for that date it'll return `None`.
 
-## Key Components
-### Loading Configuration
-- The script reads the Telegram API token from the `user.properties` file.
+# How to run this feature?
+Once the project is running(please follow the instructions given in the main README.md for this), please type /receipt into the telegram bot.
+Below you can see the example in the text format.:
 
-### `command_receipt(message, bot)`
-- Method for handling the `/receipt` command.
-- Accepts a `message` object and a `bot` instance as parameters.
-- Requests the user to input a date in the format `YYYY-MM-DD` or `YYYYMMDD`.
-- Registers the next step handler for processing the date input.
+Bhavesh Ittadwar, [Oct 19, 2023 at 4:55:58 PM]:
+/receipt
 
-### `process_date_input(message)`
-- Method for processing user input for the date.
-- Validates the date format and handles any errors.
-- Searches for receipt files with filenames containing the specified date.
-- Sends matching receipts as photos to the user.
-- Handles exceptions and logs errors using the `logging` module.
+Pegasus, [Oct 19, 2023 at 4:55:59 PM]:
+Please enter the date (YYYY-MM-DD or YYYYMMDD) for which you want to retrieve receipts:
 
-## Usage
-To use this script, you need to create a `user.properties` file with your Telegram API token. Users can interact with the bot by sending the `/receipt` command and providing a valid date in the requested format.
+Bhavesh Ittadwar, [Oct 19, 2023 at 4:56:07 PM]:
+2023-10-18
 
-Please note that this Markdown document provides a detailed description of the methods used in the script. For the complete code and detailed implementation, refer to the `receipt_bot.py` file.
+[[Receipt Image]] sent in chat.
