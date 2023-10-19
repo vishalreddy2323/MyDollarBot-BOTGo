@@ -41,4 +41,9 @@ This function handles the user's input for setting the new maximum transaction l
 5. If the entered value exceeds the transaction limit, then warning message is displayed to the user.
 6. If not, the the expenditure is successfully recorded.
 
-This script is designed for users to manage their maximum transaction limits within the Telegram bot. 
+This script is designed for users to manage their maximum transaction limits within the Telegram bot.
+
+## Test
+1. The tests for budget max has been set up to check two cases.
+2. The first test checks for a budget where we display a warning.
+3. The second tests checks for a budget which is below the threshold and should not display the message
