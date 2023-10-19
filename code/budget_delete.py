@@ -1,6 +1,5 @@
 import helper
 
-
 def run(message, bot):
     chat_id = message.chat.id
     user_list = helper.read_json()
