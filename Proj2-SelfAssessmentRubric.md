@@ -1,10 +1,10 @@
 |Score | Notes | Evidence |
 |-----|------|------|
-|.5	| Short release cycles| 2 Releases	-> https://github.com/sak007/MyDollarBot-BOTGo/releases |
-|.5	| Workload is spread over the whole team | Each memeber worked on a different feature -> https://github.com/sak007/MyDollarBot-BOTGo/pulse |
-|.5	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> https://github.com/sak007/MyDollarBot-BOTGo/tree/main/docs|
-|.5	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| https://github.com/sak007/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md |	
-|.5	| Docs: doco generated , format not ugly|	https://github.com/sak007/MyDollarBot-BOTGo/tree/main/docs|
+|1	| Short release cycles| 4 Releases	-> https://github.com/anuj672/MyDollarBot-BOTGo/releases |
+|1	| Workload is spread over the whole team | Each member worked on features, docs, fixes & test -> [https://github.com/anuj672/MyDollarBot-BOTGo/pulse](https://github.com/anuj672/MyDollarBot-BOTGo/pulse) |
+|1	| Docs: why: docs tell a story, motivate the whole thing, deliver a punchline that makes you want to rush out and use the thing	| Updated documentation for each feature -> [https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs](https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs)|
+|1	| File CONTRIBUTING.md lists coding standards and lots of tips on how to extend the system without screwing things up| [https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md](https://github.com/anuj672/MyDollarBot-BOTGo/blob/main/CONTRIBUTING.md) |	
+|1	| Docs: doco generated , format not ugly|	[https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs](https://github.com/anuj672/MyDollarBot-BOTGo/tree/main/docs)|
 |.5	| evidence that the whole team is using the same tools (e.g. config files in the repo, updated by lots of different people)	| |
 |.5	| evidence that the members of the team are working across multiple places in the code base|	https://github.com/sak007/MyDollarBot-BOTGo/pulse|
 |1	| Docs: what: point descriptions of each class/function (in isolation)|	 https://github.com/sak007/MyDollarBot-BOTGo/tree/main/docs|
