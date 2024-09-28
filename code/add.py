@@ -17,10 +17,8 @@ api_token = str(configs.get('api_token').data)
 
 bot = telebot.TeleBot(api_token)
 
-
 if not os.path.exists("receipts"):
     os.makedirs("receipts")
-
 
 def run(message, bot):
     helper.read_json()
@@ -97,12 +95,31 @@ def post_amount_input(message, bot, selected_category):
 
         helper.validate_transaction_limit(chat_id, amount_value, bot)
 
-        date_of_entry = datetime.today().strftime(
-            helper.getDateFormat() + ' ' + helper.getTimeFormat())
-        date_str, category_str, amount_str = str(
-            date_of_entry), str(option[chat_id]), str(amount_value)
+        # Ask for the date of the transaction
+        msg = bot.send_message(
+            chat_id, 'Please enter the date of this transaction (format: YYYY-MM-DD):')
+        bot.register_next_step_handler(
+            msg, process_transaction_date, bot, amount_value, selected_category)
+    except Exception as e:
+        logging.exception(str(e))
+        bot.reply_to(message, 'Oh no! ' + str(e))
+
+
+def process_transaction_date(message, bot, amount_value, selected_category):
+    try:
+        chat_id = message.chat.id
+        date_text = message.text
+        try:
+            # Validate and parse the entered date
+            selected_date = datetime.strptime(date_text, '%Y-%m-%d')
+        except ValueError:
+            bot.send_message(chat_id, "Invalid date format. Please use YYYY-MM-DD.")
+            return
+        
+        # Store the transaction details with the selected date
+        date_of_entry = selected_date.strftime(helper.getDateFormat())
         helper.write_json(add_user_record(
-            chat_id, "{},{},{}".format(date_str, category_str, amount_str)))
+            chat_id, "{},{},{}".format(date_of_entry, selected_category, amount_value)))
 
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         markup.row(types.KeyboardButton("Yes, upload receipt"))
@@ -110,13 +127,13 @@ def post_amount_input(message, bot, selected_category):
         msg = bot.send_message(
             chat_id, 'Do you want to upload a receipt image (if available)?', reply_markup=markup)
         bot.register_next_step_handler(
-            msg, handle_receipt_decision, bot, amount_str, category_str, date_str, selected_category)
+            msg, handle_receipt_decision, bot, amount_value, selected_category, date_of_entry)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no! ' + str(e))
 
 
-def handle_receipt_decision(message, bot, amount_str, category_str, date_str, selected_category):
+def handle_receipt_decision(message, bot, amount_value, selected_category, date_of_entry):
     try:
         chat_id = message.chat.id
         decision = message.text.lower()
@@ -135,9 +152,8 @@ def handle_receipt_decision(message, bot, amount_str, category_str, date_str, se
             msg = bot.send_message(
                 chat_id, 'Do you want to upload a receipt image (if available)?', reply_markup=markup)
             bot.register_next_step_handler(
-                msg, handle_receipt_decision, bot, amount_str, category_str, date_str, selected_category)
+                msg, handle_receipt_decision, bot, amount_value, selected_category, date_of_entry)
     except Exception as e:
-
         print(f"An exception occurred: {e}")
 
 
@@ -148,3 +164,4 @@ def add_user_record(chat_id, record_to_be_added):
 
     user_list[str(chat_id)]['data'].append(record_to_be_added)
     return user_list
+

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import re
 import logging
 import telebot
 import time
@@ -51,7 +52,7 @@ def start_and_menu_command(m):
     global user_list
     chat_id = m.chat.id
 
-    text_intro = "Welcome to MyDollarBot - a simple solution to track your expenses and manage them ! \n Please select the options from below for me to assist you with: \n\n"
+    text_intro = "Welcome to MyDollarBot - a simple solution to track your expenses and manage them! \n Please select the options from below for me to assist you with: \n\n"
     commands = helper.getCommands()
     for c in commands:  # generate help text out of the commands dictionary defined at the top
         text_intro += "/" + c + ": "
@@ -60,8 +61,7 @@ def start_and_menu_command(m):
     return True
 
 
-# defines how the /new command has to be handled/processed
-# function to add an expense
+# defines how the /add command has to be handled/processed
 @bot.message_handler(commands=['add'])
 def command_add(message):
     add.run(message, bot)
@@ -127,6 +127,21 @@ def command_sendEmail(message):
 def command_receipt(message):
     receipt.command_receipt(message, bot)
 
+# Calendar command to show transactions for a selected date
+@bot.message_handler(commands=['calendar'])
+def command_calendar(message):
+    bot.send_message(message.chat.id, "Please select a date (format: YYYY-MM-DD):")
+
+# Capture user input for the date
+@bot.message_handler(func=lambda message: re.match(r'^\d{4}-\d{2}-\d{2}$', message.text))
+def capture_date_input(message):
+    try:
+        selected_date = datetime.strptime(message.text, '%Y-%m-%d')
+        bot.send_message(message.chat.id, f"Date {selected_date.date()} selected. Retrieving transactions...")
+        helper.show_spend_for_date(selected_date, message.chat.id, bot)  # Call the helper function here
+    except ValueError:
+        bot.send_message(message.chat.id, "Invalid date format! Please use YYYY-MM-DD.")
+
 
 # not used
 def addUserHistory(chat_id, user_record):
@@ -148,3 +163,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

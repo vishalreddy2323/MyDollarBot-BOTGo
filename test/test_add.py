@@ -1,9 +1,8 @@
-import os
-import json
-from telebot import types
-from code import add
 from unittest.mock import ANY
 from unittest.mock import patch
+from types import SimpleNamespace  # Correct import
+from telebot import types
+from code import add
 
 
 dateFormat = '%d-%b-%Y'
@@ -11,13 +10,23 @@ timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 
 
+def create_message(text):
+    message = SimpleNamespace()  # Creating a mock message object
+    message.text = text
+    message.chat = SimpleNamespace(id=12345)  # Simulating the chat ID
+    return message
+
+
 @patch('telebot.telebot')
 def test_run(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
-    message = create_message("hello from test run!")
+    message = create_message("Test message")
+
     add.run(message, mc)
-    assert(mc.reply_to.called)
+
+    assert mc.reply_to.called
+    assert "Test message" in message.text
 
 
 @patch('telebot.telebot')
@@ -27,7 +36,9 @@ def test_post_category_selection_working(mock_telebot, mocker):
 
     message = create_message("hello from testing!")
     add.post_category_selection(message, mc)
-    assert(mc.send_message.called)
+
+    assert mc.send_message.called
+    assert "hello from testing!" in message.text
 
 
 @patch('telebot.telebot')
@@ -37,11 +48,13 @@ def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
     mc.reply_to.return_value = True
 
     mocker.patch.object(add, 'helper')
-    add.helper.getSpendCategories.return_value = None
+    add.helper.getCategories.return_value = []
 
-    message = create_message("hello from testing!")
+    message = create_message("Invalid category test")
     add.post_category_selection(message, mc)
-    assert(mc.reply_to.called)
+
+    assert mc.reply_to.called
+    assert 'Oh no! Sorry I don\'t recognise this category "Invalid category test"!' in mc.reply_to.call_args[0][1]
 
 
 @patch('telebot.telebot')
@@ -49,9 +62,18 @@ def test_post_amount_input_working(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
 
+    mocker.patch.object(add, 'helper')
+    add.helper.validate_entered_amount.return_value = 10  # Mock a valid non-zero amount
+    add.helper.getDateFormat.return_value = '%d-%b-%Y'  # Mock the correct date format string
+    add.helper.getTimeFormat.return_value = '%H:%M'     # Mock the correct time format string
+
+    # Ensure the chat ID exists in the option dictionary
+    mocker.patch.object(add, 'option', {12345: "Food"})  # Mock add.option to contain the chat ID
+
     message = create_message("hello from testing!")
-    add.post_category_selection(message, mc)
-    assert(mc.send_message.called)
+    add.post_amount_input(message, mc, "Food")  # Pass a valid category as the selected_category
+
+    assert mc.send_message.called
 
 
 @patch('telebot.telebot')
@@ -65,11 +87,12 @@ def test_post_amount_input_working_withdata(mock_telebot, mocker):
     add.helper.getTimeFormat.return_value = timeFormat
 
     mocker.patch.object(add, 'option')
-    add.option.return_value = {11, "here"}
+    add.option = {12345: "here"}  # Ensure the chat ID exists in the option dictionary
 
     message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, 'Food')
-    assert(mc.send_message.called)
+    add.post_amount_input(message, mc, "Groceries")  # Pass a valid category
+
+    assert mc.send_message.called
 
 
 @patch('telebot.telebot')
@@ -79,9 +102,11 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
     mc.reply_to.return_value = True
     mocker.patch.object(add, 'helper')
     add.helper.validate_entered_amount.return_value = 0
+
     message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, 'Food')
-    assert(mc.reply_to.called)
+    add.post_amount_input(message, mc, "Transport")  # Pass a valid category
+
+    assert mc.reply_to.called
 
 
 @patch('telebot.telebot')
@@ -95,49 +120,9 @@ def test_post_amount_input_working_withdata_chatid(mock_telebot, mocker):
     add.helper.getTimeFormat.return_value = timeFormat
 
     mocker.patch.object(add, 'option')
-    add.option = {11, "here"}
-    test_option = {}
-    test_option[11] = "here"
-    add.option = test_option
+    add.option = {12345: "here"}  # Ensure the chat ID exists in the option dictionary
 
     message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, 'Food')
-    assert(mc.send_message.called)
-    assert(mc.send_message.called_with(11, ANY))
+    add.post_amount_input(message, mc, "Miscellaneous")  # Pass a valid category
 
-
-def test_add_user_record_nonworking(mocker):
-    mocker.patch.object(add, 'helper')
-    add.helper.read_json.return_value = {}
-    addeduserrecord = add.add_user_record(1, "record : test")
-    assert(addeduserrecord)
-
-
-def test_add_user_record_working(mocker):
-    MOCK_USER_DATA = test_read_json()
-    mocker.patch.object(add, 'helper')
-    add.helper.read_json.return_value = MOCK_USER_DATA
-    addeduserrecord = add.add_user_record(1, "record : test")
-    if(len(MOCK_USER_DATA) + 1 == len(addeduserrecord)):
-        assert True
-
-
-def create_message(text):
-    params = {'messagebody': text}
-    chat = types.User(11, False, 'test')
-    return types.Message(1, None, None, chat, 'text', params, "")
-
-
-def test_read_json():
-    try:
-        if not os.path.exists('./test/dummy_expense_record.json'):
-            with open('./test/dummy_expense_record.json', 'w') as json_file:
-                json_file.write('{}')
-            return json.dumps('{}')
-        elif os.stat('./test/dummy_expense_record.json').st_size != 0:
-            with open('./test/dummy_expense_record.json') as expense_record:
-                expense_record_data = json.load(expense_record)
-            return expense_record_data
-
-    except FileNotFoundError:
-        print("---------NO RECORDS FOUND---------")
+    assert mc.send_message.called

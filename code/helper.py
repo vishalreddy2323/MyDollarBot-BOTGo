@@ -45,6 +45,7 @@ category_options = {
 commands = {
     'menu': 'Display this menu',
     'add': 'Record/Add a new spending',
+    'calendar': 'View transactions for a selected date',
     'add_recurring': 'Add a new recurring expense for future months',
     'display': 'Show sum of expenditure for the current day/month',
     'estimate': 'Show an estimate of expenditure for the next day/month',
@@ -62,22 +63,22 @@ dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 
-
 # function to load .json expense record data
 def read_json():
     try:
         if not os.path.exists('expense_record.json'):
             with open('expense_record.json', 'w') as json_file:
                 json_file.write('{}')
-            return json.dumps('{}')
+            return {}
         elif os.stat('expense_record.json').st_size != 0:
             with open('expense_record.json') as expense_record:
                 expense_record_data = json.load(expense_record)
             return expense_record_data
-
+        else:
+            return {}  # Return an empty dictionary if file is empty
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
-
+        return {}  # Return an empty dictionary in case of any errors
 
 def write_json(user_list):
     try:
@@ -85,7 +86,6 @@ def write_json(user_list):
             json.dump(user_list, json_file, ensure_ascii=False, indent=4)
     except FileNotFoundError:
         print('Sorry, the data file could not be found.')
-
 
 def validate_entered_amount(amount_entered):
     if amount_entered is None:
@@ -96,7 +96,6 @@ def validate_entered_amount(amount_entered):
             return str(amount)
     return 0
 
-
 def validate_entered_duration(duration_entered):
     if duration_entered is None:
         return 0
@@ -106,7 +105,6 @@ def validate_entered_duration(duration_entered):
             return str(duration)
     return 0
 
-
 def validate_transaction_limit(chat_id, amount_value, bot):
     if isMaxTransactionLimitAvailable(chat_id):
         maxLimit = round(float(getMaxTransactionLimit(chat_id)), 2)
@@ -114,13 +112,11 @@ def validate_transaction_limit(chat_id, amount_value, bot):
             bot.send_message(
                 chat_id, 'Warning! You went over your transaction spend limit')
 
-
 def getUserHistory(chat_id):
     data = getUserData(chat_id)
     if data is not None:
         return data['data']
     return None
-
 
 def getUserData(chat_id):
     user_list = read_json()
@@ -130,15 +126,12 @@ def getUserData(chat_id):
         return user_list[str(chat_id)]
     return None
 
-
 def throw_exception(e, message, bot, logging):
     logging.exception(str(e))
     bot.reply_to(message, 'Oh no! ' + str(e))
 
-
 def createNewUserRecord():
     return data_format
-
 
 def getOverallBudget(chatId):
     data = getUserData(chatId)
@@ -146,13 +139,11 @@ def getOverallBudget(chatId):
         return None
     return data['budget']['overall']
 
-
 def getCategoryBudget(chatId):
     data = getUserData(chatId)
     if data is None:
         return None
     return data['budget']['category']
-
 
 def getMaxTransactionLimit(chatId):
     data = getUserData(chatId)
@@ -160,25 +151,20 @@ def getMaxTransactionLimit(chatId):
         return None
     return data['budget']['max_per_txn_spend']
 
-
 def getCategoryBudgetByCategory(chatId, cat):
     if not isCategoryBudgetByCategoryAvailable(chatId, cat):
         return None
     data = getCategoryBudget(chatId)
     return data[cat]
 
-
 def canAddBudget(chatId):
     return (getOverallBudget(chatId) is None) and (getCategoryBudget(chatId) is None)
-
 
 def isOverallBudgetAvailable(chatId):
     return getOverallBudget(chatId) is not None
 
-
 def isCategoryBudgetAvailable(chatId):
     return getCategoryBudget(chatId) is not None
-
 
 def isCategoryBudgetByCategoryAvailable(chatId, cat):
     data = getCategoryBudget(chatId)
@@ -186,10 +172,8 @@ def isCategoryBudgetByCategoryAvailable(chatId, cat):
         return False
     return cat in data.keys()
 
-
 def isMaxTransactionLimitAvailable(chatId):
     return getMaxTransactionLimit(chatId) is not None
-
 
 def display_remaining_budget(message, bot, cat):
     chat_id = message.chat.id
@@ -197,6 +181,60 @@ def display_remaining_budget(message, bot, cat):
         display_remaining_overall_budget(message, bot)
     elif isCategoryBudgetByCategoryAvailable(chat_id, cat):
         display_remaining_category_budget(message, bot, cat)
+
+def getTransactionsForChat(chat_id):
+    """
+    This function retrieves the list of transactions for the specified user (chat_id).
+    Modify it according to your data structure (e.g., stored JSON, database, etc.).
+    """
+    user_data = getUserData(chat_id)  # Assuming getUserData function retrieves data for a user
+    if user_data and 'data' in user_data:
+        return user_data['data']  # Returns the list of transactions from user's data
+    return []
+
+#def show_spend_for_date(selected_date, chat_id, bot):
+#    transactions = getUserHistory(chat_id)  # Assuming this retrieves all transactions for the user
+#    
+#    if transactions is None:  # Check if transactions are None
+#        bot.send_message(chat_id, "No transactions found for the selected date.")
+#        return
+    
+#    filtered_transactions = []
+
+    # Filter transactions for the selected date
+#    for txn in transactions:
+#        txn_date_str = txn.split(',')[0].split(' ')[0]  # Ignore time if present
+#        try:
+            # Parse the transaction date string to a datetime object
+#            txn_date = datetime.strptime(txn_date_str, '%d-%b-%Y')  # Assuming date is in '28-Sep-2024' format
+#            if txn_date.date() == selected_date.date():  # Compare dates
+#                filtered_transactions.append(txn)
+#        except ValueError:
+#            print(f"Unexpected transaction format: {txn}")
+
+    # Send the filtered transactions back to the user
+#    if filtered_transactions:
+#        for txn in filtered_transactions:
+#            bot.send_message(chat_id, f"{txn.split(',')[0]} - {txn.split(',')[1]}: ${txn.split(',')[2]}")
+#    else:
+#        bot.send_message(chat_id, "No transactions found for the selected date.")
+
+def show_spend_for_date(selected_date, chat_id, bot):
+    transactions = getTransactionsForChat(chat_id)  # Assuming this retrieves all transactions for the user
+    filtered_transactions = []
+
+    # Filter transactions for the selected date
+    for txn in transactions:
+        txn_date = datetime.strptime(txn.split(',')[0], '%d-%b-%Y')  # Assuming transactions have a 'date' field
+        if txn_date.date() == selected_date.date():
+            filtered_transactions.append(txn)
+
+    # Send the filtered transactions back to the user
+    if filtered_transactions:
+        for txn in filtered_transactions:
+            bot.send_message(chat_id, f"{txn.split(',')[0]} - {txn.split(',')[1]}: ${txn.split(',')[2]}")
+    else:
+        bot.send_message(chat_id, "No transactions found for the selected date.")
 
 
 def display_remaining_overall_budget(message, bot):
@@ -211,7 +249,6 @@ def display_remaining_overall_budget(message, bot):
             str(remaining_budget)[1:]
     bot.send_message(chat_id, msg)
 
-
 def calculateRemainingOverallBudget(chat_id):
     budget = getOverallBudget(chat_id)
     history = getUserHistory(chat_id)
@@ -221,7 +258,6 @@ def calculateRemainingOverallBudget(chat_id):
 
     return float(budget) - calculate_total_spendings(queryResult)
 
-
 def calculate_total_spendings(queryResult):
     total = 0
 
@@ -229,7 +265,6 @@ def calculate_total_spendings(queryResult):
         s = row.split(',')
         total = total + float(s[2])
     return total
-
 
 def display_remaining_category_budget(message, bot, cat):
     chat_id = message.chat.id
@@ -242,7 +277,6 @@ def display_remaining_category_budget(message, bot, cat):
             str(abs(remaining_budget))
     bot.send_message(chat_id, msg)
 
-
 def calculateRemainingCategoryBudget(chat_id, cat):
     budget = getCategoryBudgetByCategory(chat_id, cat)
     history = getUserHistory(chat_id)
@@ -251,7 +285,6 @@ def calculateRemainingCategoryBudget(chat_id, cat):
         history) if str(query) in value]
 
     return float(budget) - calculate_total_spendings_for_category(queryResult, cat)
-
 
 def calculate_total_spendings_for_category(queryResult, cat):
     total = 0
@@ -262,56 +295,44 @@ def calculate_total_spendings_for_category(queryResult, cat):
             total = total + float(s[2])
     return total
 
-
 def getSpendCategories():
     with open("categories.txt", "r") as tf:
         spend_categories = tf.read().split(',')
     return spend_categories
 
-
 def getplot():
     return plot
-
 
 def getSpendDisplayOptions():
     return spend_display_option
 
-
 def getSpendEstimateOptions():
     return spend_estimate_option
-
 
 def getCommands():
     return commands
 
-
 def getDateFormat():
     return dateFormat
-
 
 def getTimeFormat():
     return timeFormat
 
-
 def getMonthFormat():
     return monthFormat
-
 
 def getChoices():
     return choices
 
-
 def getBudgetOptions():
     return budget_options
-
 
 def getBudgetTypes():
     return budget_types
 
-
 def getUpdateOptions():
     return update_options
 
-
 def getCategoryOptions():
     return category_options
+

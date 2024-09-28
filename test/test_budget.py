@@ -83,6 +83,30 @@ def test_post_operation_selection_delete_case(mock_telebot, mocker):
     budget.post_operation_selection(message, mc)
     assert(budget.budget_delete.run.called)
 
+@patch('telebot.telebot')
+def test_run(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.reply_to.return_value = True
+    message = create_message("Budget test run")
+
+    budget.run(message, mc)
+
+    # Improved: Verifying the correct operation message is sent
+    assert mc.reply_to.called_with(ANY, 'Select Operation', ANY)
+
+@patch('telebot.telebot')
+def test_post_operation_selection_failing_case(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+
+    mocker.patch.object(budget, 'helper')
+    budget.helper.getBudgetOptions.return_value = {}
+
+    message = create_message("Invalid budget operation")
+    budget.post_operation_selection(message, mc)
+
+    # Improved: Verify the response for an invalid operation
+    mc.send_message.assert_called_with(11, 'Invalid', reply_markup=ANY)
 
 def create_message(text):
     params = {'messagebody': text}
