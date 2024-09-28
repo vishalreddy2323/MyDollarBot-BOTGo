@@ -56,7 +56,8 @@ commands = {
     'category': 'Add/Delete/Show custom categories',
     'extract': 'Extract data into CSV',
     'sendEmail': 'Email CSV to user',
-    'receipt': 'Show the receipt for the day'
+    'receipt': 'Show the receipt for the day',
+    'income': 'Add income for the month'
 }
 
 dateFormat = '%d-%b-%Y'
@@ -104,6 +105,45 @@ def validate_entered_duration(duration_entered):
         if duration > 0:
             return str(duration)
     return 0
+
+
+# In helper.py
+def get_help_text():
+    return "Here is some help text"
+
+
+# Stores the user's income in a JSON file or in-memory data structure
+def setUserIncome(chat_id, income_value):
+    user_list = read_json()
+    
+    # Ensure that user_list is not None and create an empty user data if necessary
+    if str(chat_id) not in user_list:
+        user_list[str(chat_id)] = createNewUserRecord()
+
+    user_list[str(chat_id)]['income'] = income_value
+    write_json(user_list)
+
+# Retrieves user data including income and transactions
+def getUserData(chat_id):
+    # Implement logic to retrieve user data from storage (e.g., JSON or database)
+    user_data = read_json()
+    if str(chat_id) in user_data:
+        return user_data[str(chat_id)]
+    else:
+        return {}
+
+# Calculate total expenditure for the current month
+def calculate_total_expenditure(chat_id):
+    transactions = getTransactionsForChat(chat_id)
+    total_expenditure = 0.0
+
+    # Sum up all transactions for the month
+    for txn in transactions:
+        txn_amount = float(txn.split(',')[2])  # Assuming amount is the third value in the transaction string
+        total_expenditure += txn_amount
+
+    return total_expenditure
+
 
 def validate_transaction_limit(chat_id, amount_value, bot):
     if isMaxTransactionLimitAvailable(chat_id):
@@ -294,6 +334,43 @@ def calculate_total_spendings_for_category(queryResult, cat):
         if cat == s[1]:
             total = total + float(s[2])
     return total
+
+def getIncome(chat_id):
+    data = getUserData(chat_id)
+    if data is None or 'income' not in data:
+        return None
+    return data['income']
+
+def setIncome(chat_id, income_value):
+    user_list = read_json()
+    if str(chat_id) not in user_list:
+        user_list[str(chat_id)] = createNewUserRecord()
+    user_list[str(chat_id)]['income'] = income_value
+    write_json(user_list)
+
+def getTotalSpendForMonth(chat_id):
+    history = getUserHistory(chat_id)
+    if history is None:
+        return 0
+    current_month = datetime.now().strftime('%b-%Y')
+    monthly_spend = sum(float(txn.split(',')[2]) for txn in history if current_month in txn)
+    return monthly_spend
+
+def checkIfExceedsIncome(chat_id, amount_to_add, bot):
+    income = getIncome(chat_id)
+    if income is None:
+        bot.send_message(chat_id, "You haven't set your monthly income. Please set your income using /income.")
+        return True  # No income set, block the transaction until income is set
+
+    total_spend = getTotalSpendForMonth(chat_id)
+    
+    # Check if the new expenditure exceeds the income
+    if total_spend + amount_to_add > float(income):
+        bot.send_message(chat_id, f"Transaction exceeds your monthly income limit! You have spent ${total_spend}, which exceeds your income of ${income}.")
+        return True  # Exceeds income
+    
+    return False  # Income limit not exceeded, allow transaction
+
 
 def getSpendCategories():
     with open("categories.txt", "r") as tf:

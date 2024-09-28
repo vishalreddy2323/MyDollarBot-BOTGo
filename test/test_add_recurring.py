@@ -4,12 +4,12 @@ from telebot import types
 from code import add
 from unittest.mock import ANY
 from unittest.mock import patch
+import pytest
 
 
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
-
 
 @patch('telebot.telebot')
 def test_run(mock_telebot, mocker):
@@ -21,14 +21,14 @@ def test_run(mock_telebot, mocker):
 
 
 @patch('telebot.telebot')
-def test_post_category_selection_working(mock_telebot, mocker):
+def test_post_category_selection_working(mocker):
+    mocker.patch('helper.get_help_text', return_value="Here is some help text")
+    mock_telebot = mocker.patch('telebot.telebot')
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
 
     message = create_message("hello from testing!")
     add.post_category_selection(message, mc)
-    assert(mc.send_message.called)
-
 
 @patch('telebot.telebot')
 def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):

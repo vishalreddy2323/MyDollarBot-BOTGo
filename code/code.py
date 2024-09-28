@@ -16,6 +16,7 @@ import category
 import extract
 import sendEmail
 import add_recurring
+import income
 import receipt
 from datetime import datetime
 from jproperties import Properties
@@ -45,7 +46,7 @@ def listener(user_requests):
 bot.set_update_listener(listener)
 
 
-# defines how the /start and /help commands have to be handled/processed
+# defines how the /start and /menu commands have to be handled/processed
 @bot.message_handler(commands=['start', 'menu'])
 def start_and_menu_command(m):
     helper.read_json()
@@ -127,10 +128,12 @@ def command_sendEmail(message):
 def command_receipt(message):
     receipt.command_receipt(message, bot)
 
+
 # Calendar command to show transactions for a selected date
 @bot.message_handler(commands=['calendar'])
 def command_calendar(message):
     bot.send_message(message.chat.id, "Please select a date (format: YYYY-MM-DD):")
+
 
 # Capture user input for the date
 @bot.message_handler(func=lambda message: re.match(r'^\d{4}-\d{2}-\d{2}$', message.text))
@@ -141,6 +144,17 @@ def capture_date_input(message):
         helper.show_spend_for_date(selected_date, message.chat.id, bot)  # Call the helper function here
     except ValueError:
         bot.send_message(message.chat.id, "Invalid date format! Please use YYYY-MM-DD.")
+
+
+@bot.message_handler(commands=['income'])
+def command_income(message):
+    income.set_income(message, bot)
+
+
+# Capture the income input
+@bot.message_handler(func=lambda message: message.text.isdigit())
+def capture_income(message):
+    income.process_income_input(message, bot)
 
 
 # not used

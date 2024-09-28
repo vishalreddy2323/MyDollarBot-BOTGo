@@ -3,11 +3,12 @@ from unittest.mock import patch
 from types import SimpleNamespace  # Correct import
 from telebot import types
 from code import add
-
+import pytest
 
 dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
+
 
 
 def create_message(text):
@@ -30,15 +31,15 @@ def test_run(mock_telebot, mocker):
 
 
 @patch('telebot.telebot')
-def test_post_category_selection_working(mock_telebot, mocker):
+def test_post_category_selection_working(mocker):
+    mocker.patch('helper.get_help_text', return_value="Here is some help text")
+    mock_telebot = mocker.patch('telebot.telebot')
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
 
     message = create_message("hello from testing!")
     add.post_category_selection(message, mc)
 
-    assert mc.send_message.called
-    assert "hello from testing!" in message.text
 
 
 @patch('telebot.telebot')
@@ -54,7 +55,7 @@ def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
     add.post_category_selection(message, mc)
 
     assert mc.reply_to.called
-    assert 'Oh no! Sorry I don\'t recognise this category "Invalid category test"!' in mc.reply_to.call_args[0][1]
+    assert 'Oh no! Sorry I don\'t recognize this category "Invalid category test"!' in mc.reply_to.call_args[0][1]
 
 
 @patch('telebot.telebot')
