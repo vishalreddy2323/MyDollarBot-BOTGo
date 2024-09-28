@@ -8,9 +8,9 @@ import helper
 @pytest.fixture
 def mock_transactions():
     return [
-        {'date': '2024-09-28', 'category': 'Food', 'amount': 50.0},
-        {'date': '2024-09-28', 'category': 'Groceries', 'amount': 20.0},
-        {'date': '2024-09-29', 'category': 'Utilities', 'amount': 100.0}
+        '28-Sep-2024,Food,50.0',
+        '28-Sep-2024,Groceries,20.0',
+        '29-Sep-2024,Utilities,100.0'
     ]
 
 
@@ -19,12 +19,8 @@ def test_show_spend_for_date(mocker, mock_transactions):
     chat_id = 12345
     selected_date = datetime.strptime('2024-09-28', '%Y-%m-%d')
 
-    # Patch helper.getUserHistory to return mock transactions
-    mocker.patch.object(helper, 'getUserHistory', return_value=[
-        '28-Sep-2024,Food,50.0',
-        '28-Sep-2024,Groceries,20.0',
-        '29-Sep-2024,Utilities,100.0'
-    ])
+    # Patch getTransactionsForChat to return mock transactions
+    mocker.patch.object(helper, 'getTransactionsForChat', return_value=mock_transactions)
 
     # Mock the bot's send_message function
     mock_bot = MagicMock()
@@ -47,8 +43,8 @@ def test_show_spend_for_date_no_transactions(mocker):
     chat_id = 12345
     selected_date = datetime.strptime('2024-10-01', '%Y-%m-%d')
 
-    # Patch helper.getUserHistory to return empty or non-matching transactions
-    mocker.patch.object(helper, 'getUserHistory', return_value=[
+    # Patch getTransactionsForChat to return empty or non-matching transactions
+    mocker.patch.object(helper, 'getTransactionsForChat', return_value=[
         '28-Sep-2024,Food,50.0',
         '28-Sep-2024,Groceries,20.0',
         '29-Sep-2024,Utilities,100.0'
