@@ -1,7 +1,17 @@
 import matplotlib
 import matplotlib.pyplot as plt
-
+from helper import convert_currency
 matplotlib.use('Agg')
+# graphing.py
+
+def generate_expense_graph(expenses, base_currency):
+    converted_expenses = []
+    for expense in expenses:
+        converted_amount = convert_currency(expense['amount'], expense['currency'], base_currency)
+        converted_expenses.append((expense['category'], converted_amount))
+    
+    # Now, generate the graph with converted_expenses in the base currency
+    plot_expenses(converted_expenses, base_currency)
 
 
 def addlabels(x, y):

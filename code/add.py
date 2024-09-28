@@ -3,7 +3,6 @@ import logging
 from telebot import types, telebot
 from datetime import datetime
 from jproperties import Properties
-import requests
 import os
 
 option = {}
@@ -19,6 +18,29 @@ bot = telebot.TeleBot(api_token)
 
 if not os.path.exists("receipts"):
     os.makedirs("receipts")
+
+def post_amount_input(message, bot, category):
+    """Handles the amount input for an expense, including currency."""
+    try:
+        # Assuming the message contains both amount and currency
+        input_data = message.text.split()
+        amount = float(input_data[0])
+        currency = input_data[1].upper()
+
+        if currency not in ['USD', 'EUR', 'INR']:
+            bot.send_message(message.chat.id, "Unsupported currency. Please use USD, EUR, or INR.")
+            return
+
+        # Convert to user's preferred currency if needed
+        preferred_currency = helper.get_user_preferred_currency(message.chat.id)
+        converted_amount = helper.convert_currency(amount, currency, preferred_currency)
+
+        # Ask for the date of the transaction
+        msg = bot.send_message(message.chat.id, 'Please enter the date of this transaction (format: YYYY-MM-DD):')
+        bot.register_next_step_handler(msg, process_transaction_date, bot, converted_amount, category, preferred_currency)
+
+    except ValueError:
+        bot.send_message(message.chat.id, "Invalid input. Please enter the amount followed by the currency (e.g., '10 USD').")
 
 
 def run(message, bot):
@@ -43,46 +65,23 @@ def post_category_selection(message, bot):
             raise Exception(f"Sorry I don't recognize this category \"{selected_category}\"!")
 
         option[chat_id] = selected_category
-        msg = bot.send_message(
-            chat_id, f'How much did you spend on {selected_category}? (Enter numeric values only)')
-        bot.register_next_step_handler(
-            msg, post_amount_input, bot, selected_category)
-    except Exception as e:
-        logging.exception(str(e))
-        bot.reply_to(message, 'Oh no! ' + str(e))
-        display_text = helper.get_help_text()
-        bot.send_message(chat_id, 'Please select a menu option from below:')
-        bot.send_message(chat_id, display_text)
-
-def post_amount_input(message, bot, selected_category):
-    try:
-        chat_id = message.chat.id
-        amount_entered = message.text
-        amount_value = helper.validate_entered_amount(amount_entered)  # validate
-        if amount_value == 0:  # cannot be $0 spending
-            raise Exception("Spent amount has to be a non-zero number.")
-
-        # Retrieve user data or create an empty dictionary if none exists
-        user_data = helper.getUserData(chat_id) or {}
 
         # Check if user has set an income
+        user_data = helper.getUserData(chat_id)
         if 'income' not in user_data or user_data['income'] == 0:
             bot.send_message(chat_id, "You haven't set an income yet. Please use /income to set your monthly income.")
             return
 
-        # Check if transaction exceeds income
-        if helper.checkIfExceedsIncome(chat_id, float(amount_value), bot):
-            return  # If income limit is exceeded, stop further processing
+        msg = bot.send_message(
+            chat_id, f'How much did you spend on {selected_category}? (Enter the amount followed by the currency, e.g., "100 USD")')
+        bot.register_next_step_handler(msg, post_amount_input, bot, selected_category)
 
-        # Ask for the date of the transaction
-        msg = bot.send_message(chat_id, 'Please enter the date of this transaction (format: YYYY-MM-DD):')
-        bot.register_next_step_handler(msg, process_transaction_date, bot, amount_value, selected_category)
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no! ' + str(e))
 
 
-def process_transaction_date(message, bot, amount_value, selected_category):
+def process_transaction_date(message, bot, amount_value, selected_category, currency):
     try:
         chat_id = message.chat.id
         date_text = message.text
@@ -96,7 +95,7 @@ def process_transaction_date(message, bot, amount_value, selected_category):
         # Store the transaction details with the selected date
         date_of_entry = selected_date.strftime(helper.getDateFormat())
         helper.write_json(add_user_record(
-            chat_id, f"{date_of_entry},{selected_category},{amount_value}"))
+            chat_id, f"{date_of_entry},{selected_category},{amount_value},{currency}"))
 
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         markup.row(types.KeyboardButton("Yes, upload receipt"))
@@ -138,4 +137,5 @@ def add_user_record(chat_id, record_to_be_added):
 
     user_list[str(chat_id)]['data'].append(record_to_be_added)
     return user_list
+
 

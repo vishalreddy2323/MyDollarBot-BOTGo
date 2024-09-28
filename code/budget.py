@@ -5,7 +5,7 @@ import budget_delete
 import budget_max
 import logging
 from telebot import types
-
+from helper import convert_currency
 
 def run(message, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -15,6 +15,22 @@ def run(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, 'Select Operation', reply_markup=markup)
     bot.register_next_step_handler(msg, post_operation_selection, bot)
+# budget.py
+
+def get_total_expenses_in_base_currency(expenses, base_currency):
+    total = 0
+    for expense in expenses:
+        amount = expense['amount']
+        currency = expense['currency']
+        converted_amount = convert_currency(amount, currency, base_currency)
+        total += converted_amount
+    return total
+
+def check_budget_limit(expenses, budget_limit, base_currency):
+    total_spent = get_total_expenses_in_base_currency(expenses, base_currency)
+    if total_spent > budget_limit:
+        return f"Warning! You have exceeded your budget of {budget_limit} {base_currency}. You have spent {total_spent}."
+    return f"You are within your budget. Total spent: {total_spent} {base_currency}."
 
 
 def post_operation_selection(message, bot):
