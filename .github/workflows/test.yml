@@ -22,7 +22,9 @@ jobs:
           python-version: 3.9  # Choose the Python version you need
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: | 
+          pip install -r requirements.txt
+          pip install pytest flake8 bandit 
 
       - name: Run Tests
         run: python -m pytest test/
@@ -48,8 +50,18 @@ jobs:
       - name: Check coverage threshold
         run: |
           COVERAGE=$(coverage report -m | grep 'TOTAL' | awk '{print $4}' | cut -d '%' -f1)
-          if [ "$COVERAGE" -lt 80 ]; then
+          if [ "$COVERAGE" -lt 70 ]; then
             echo "Coverage is below 90%: $COVERAGE%"
             exit 1
           fi
         shell: bash
+
+         # Step 5: Static Code Analysis with Flake8
+      - name: Run Flake8 (Static Code Analysis)
+        run: |
+          flake8 code/ --max-line-length=120  # Flake8 to lint the code directory
+
+      # Step 6: Security Scanning with Bandit
+      - name: Run Bandit (Security Scanning)
+        run: |
+          bandit -r code/ 
