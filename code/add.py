@@ -4,7 +4,7 @@ from telebot import types, telebot
 from datetime import datetime
 from jproperties import Properties
 import os
-
+import income 
 option = {}
 
 configs = Properties()
@@ -19,6 +19,7 @@ bot = telebot.TeleBot(api_token)
 if not os.path.exists("receipts"):
     os.makedirs("receipts")
 
+
 def post_amount_input(message, bot, category):
     """Handles the amount input for an expense, including currency."""
     try:
@@ -31,9 +32,13 @@ def post_amount_input(message, bot, category):
             bot.send_message(message.chat.id, "Unsupported currency. Please use USD, EUR, or INR.")
             return
 
-        # Convert to user's preferred currency if needed
-        preferred_currency = helper.get_user_preferred_currency(message.chat.id)
+        # Convert the amount to the preferred currency (USD in this case)
+        preferred_currency = 'USD'  # or helper.get_user_preferred_currency(message.chat.id)
         converted_amount = helper.convert_currency(amount, currency, preferred_currency)
+
+        # Check if the transaction exceeds the user's income
+        if income.check_transaction_limit(message.chat.id, converted_amount, currency, bot):
+            return  # Stop further processing if the transaction exceeds the limit
 
         # Ask for the date of the transaction
         msg = bot.send_message(message.chat.id, 'Please enter the date of this transaction (format: YYYY-MM-DD):')

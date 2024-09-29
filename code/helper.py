@@ -73,6 +73,13 @@ dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 
+def getTransactionsForChat(chat_id):
+    user_data = read_json()
+    if str(chat_id) in user_data:
+        return user_data[str(chat_id)].get('data', [])
+    return []
+
+
 # Function to convert currency
 def convert_currency(amount, from_currency, to_currency):
     """Convert the given amount from one currency to another using predefined rates."""
@@ -152,10 +159,16 @@ def getUserData(chat_id):
 def calculate_total_expenditure(chat_id):
     transactions = getTransactionsForChat(chat_id)
     total_expenditure = 0.0
+    preferred_currency = get_user_preferred_currency(chat_id)  # Assume you have this logic
+    
     for txn in transactions:
         txn_amount = float(txn.split(',')[2])  # Assuming amount is the third value in the transaction string
-        total_expenditure += txn_amount
+        txn_currency = txn.split(',')[3]  # Assuming currency is the fourth value in the transaction string
+        total_expenditure += convert_currency(txn_amount, txn_currency, preferred_currency)  # Convert all to preferred currency
+    
     return total_expenditure
+
+
 
 # Validate if a transaction exceeds the transaction limit
 def validate_transaction_limit(chat_id, amount_value, bot):
@@ -167,12 +180,17 @@ def validate_transaction_limit(chat_id, amount_value, bot):
 # Check if the new transaction exceeds user's monthly income
 def checkIfExceedsIncome(chat_id, amount_to_add, bot):
     income = getIncome(chat_id)
+    preferred_currency = get_user_preferred_currency(chat_id)  # Retrieve preferred currency
+    
     if income is None:
         bot.send_message(chat_id, "You haven't set your monthly income. Please set your income using /income.")
         return True  # No income set, block the transaction
 
-    total_spend = getTotalSpendForMonth(chat_id)
-    if total_spend + amount_to_add > float(income):
+    # Ensure amount_to_add is converted to the user's preferred currency
+    converted_amount = convert_currency(amount_to_add, 'USD', preferred_currency)  # Convert to USD or any base
+
+    total_spend = getTotalSpendForMonth(chat_id)  # Ensure total spend is also in the same currency
+    if total_spend + converted_amount > float(income):
         bot.send_message(chat_id, f"Transaction exceeds your monthly income limit! You have spent ${total_spend}, which exceeds your income of ${income}.")
         return True
 
