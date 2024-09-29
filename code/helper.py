@@ -156,16 +156,24 @@ def getUserData(chat_id):
         return {}
 
 # Calculate total expenditure for the current month
-def calculate_total_expenditure(chat_id):
-    transactions = getTransactionsForChat(chat_id)
+def calculate_total_expenditure(chat_id, category=None):
+    user_data = getUserData(chat_id)
+    
+    if not user_data or 'data' not in user_data:
+        return 0.0
+
     total_expenditure = 0.0
-    preferred_currency = get_user_preferred_currency(chat_id)  # Assume you have this logic
-    
-    for txn in transactions:
-        txn_amount = float(txn.split(',')[2])  # Assuming amount is the third value in the transaction string
-        txn_currency = txn.split(',')[3]  # Assuming currency is the fourth value in the transaction string
-        total_expenditure += convert_currency(txn_amount, txn_currency, preferred_currency)  # Convert all to preferred currency
-    
+
+    # Loop through the user's spending records
+    for record in user_data['data']:
+        record_data = record.split(',')
+        record_category = record_data[1]
+        record_amount = float(record_data[2])
+        
+        # If a category is provided, only sum expenses for that category
+        if category is None or record_category == category:
+            total_expenditure += record_amount
+
     return total_expenditure
 
 
@@ -195,6 +203,45 @@ def checkIfExceedsIncome(chat_id, amount_to_add, bot):
         return True
 
     return False
+
+def get_remaining_budget(chat_id, selected_category):
+    # Get the user's total income
+    user_data = getUserData(chat_id)
+    if 'income' not in user_data:
+        return 0.0  # No income set
+
+    income = float(user_data['income'])
+
+    # Calculate the total expenditure across all categories
+    total_expenditure = calculate_total_expenditure(chat_id)  # Sum of all categories
+
+    # Calculate the remaining budget as income minus total expenditure
+    remaining_budget = income - total_expenditure
+
+    return remaining_budget
+
+
+
+def getOverallRemainingBudget(chat_id):
+    user_data = getUserData(chat_id)
+    total_expenditure = calculate_total_expenditure(chat_id)
+    
+    if 'income' not in user_data or user_data['income'] == 0:
+        return None  # No income set yet
+
+    remaining_budget = user_data['income'] - total_expenditure
+    return remaining_budget
+
+def getCategoryBudgetByCategory(chat_id, category):
+    user_data = getUserData(chat_id)
+
+    # Check if there is a category-specific budget
+    if 'budgets' in user_data and category in user_data['budgets']:
+        return user_data['budgets'][category]
+
+    # Default to overall budget if no specific category budget exists
+    return getOverallRemainingBudget(chat_id)
+
 
 # Various utility functions
 def getUserHistory(chat_id):
