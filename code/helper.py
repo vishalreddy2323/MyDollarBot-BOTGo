@@ -73,6 +73,12 @@ dateFormat = '%d-%b-%Y'
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 
+
+def throw_exception(e, message, bot, logging):
+    logging.error(f"An exception occurred: {e}")
+    bot.send_message(message.chat.id, str(e))
+
+
 def getTransactionsForChat(chat_id):
     user_data = read_json()
     if str(chat_id) in user_data:
