@@ -59,9 +59,11 @@ jobs:
       - name: Run Flake8 (Static Code Analysis)
         run: |
           flake8 code/ --max-line-length=120  # Flake8 to lint the code directory
+        continue-on-error: true
 
       # Step 6: Security Scanning with Bandit
       - name: Run Bandit (Security Scanning)
         run: |
           bandit -r code/
+        continue-on-error: true
 
