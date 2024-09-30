@@ -16,9 +16,9 @@ This video shows only the new features and enhancement of some older features. A
 [![GitHub contributors](https://img.shields.io/github/contributors/anuj672/MyDollarBot-BOTGo)](https://github.com/anuj672/MyDollarBot-BOTGo/graphs/contributors)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10023576.svg)](https://doi.org/10.5281/zenodo.10023576)
 [![Test and Formatting](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml/badge.svg)](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml)
- [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/f90d8ff63781978b73c28561177358b3/raw/coverage.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
-  [![Static Code Analysis](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/6e6740fb4d21afa29af5a1eba71cedba/raw/Static_code_analysis.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
-  [![Security Scans](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/e9d969e042f2cc3e639dbac2a074ba92/raw/Security_scan.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/f90d8ff63781978b73c28561177358b3/raw/coverage.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+[![Static Code Analysis](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/6e6740fb4d21afa29af5a1eba71cedba/raw/Static_code_analysis.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+[![Security Scans](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/e9d969e042f2cc3e639dbac2a074ba92/raw/Security_scan.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
 
 
 <!-- [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo) -->
