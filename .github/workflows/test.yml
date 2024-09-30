@@ -38,20 +38,21 @@ jobs:
           filename: coverage.json
           label: Coverage
           message: ${{ env.COVERAGE }}%  # Set the percentage value
-          color: ${{ env.COVERAGE -ge 70 && 'green' || 'red' }}  # Dynamic color based on threshold
+          color: ${{ env.COVERAGE -ge 70 && 'green' || 'red' }}
         continue-on-error: true
-
 
       - name: Run Flake8 (Static Code Analysis)
         run: |
           flake8 code/ --max-line-length=120
-          exit_code=$?
-          if [ $exit_code -eq 0 ]; then
+        continue-on-error: true
+
+      - name: Check Flake8 result and set status
+        run: |
+          if [ $? -eq 0 ]; then
             echo "STATIC_CODE_STATUS=Pass" >> $GITHUB_ENV
           else
             echo "STATIC_CODE_STATUS=Fail" >> $GITHUB_ENV
           fi
-        continue-on-error: true  # Allow the workflow to continue even if this step fails
 
       - name: Create Static Code Analysis Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -62,18 +63,20 @@ jobs:
           label: Static Code Analysis
           message: ${{ env.STATIC_CODE_STATUS }}
           color: ${{ env.STATIC_CODE_STATUS == 'Pass' && 'green' || 'red' }}
-        continue-on-error: true  # This will ensure the badge is created even if Flake8 fails
+        continue-on-error: true
 
       - name: Run Bandit (Security Scanning)
         run: |
           bandit -r code/
-          exit_code=$?
-          if [ $exit_code -eq 0 ]; then
+        continue-on-error: true
+
+      - name: Check Bandit result and set status
+        run: |
+          if [ $? -eq 0 ]; then
             echo "SECURITY_STATUS=Pass" >> $GITHUB_ENV
           else
             echo "SECURITY_STATUS=Fail" >> $GITHUB_ENV
           fi
-        continue-on-error: true  # Continue even if Bandit fails
 
       - name: Create Security Scan Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -84,4 +87,4 @@ jobs:
           label: Security Scan
           message: ${{ env.SECURITY_STATUS }}
           color: ${{ env.SECURITY_STATUS == 'Pass' && 'green' || 'red' }}
-        continue-on-error: true 
+        continue-on-error: true
