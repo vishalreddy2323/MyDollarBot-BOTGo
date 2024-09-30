@@ -1,8 +1,8 @@
-# 💰 TrackMyDollar V4.0 - Budget On The Go(BOTGo) 💰
+# 💰 TrackMyDollar V5.0 - Budget On The Go(BOTGo) 💰
 
 https://www.youtube.com/watch?v=9fJScubX-cI
 
-This video shows only the new features and enhancement of some older features. All the other features from phase 3 are working as it is.
+This video shows only the new features and enhancement of some older features. All the other features from phase 4 are working as it is.
 <hr>
 <p align="center">
 <a><img  height=360 width=550 
@@ -40,15 +40,15 @@ With simple commands, this bot allows you to:
 
 ## What's new? (From Phase 3 to Phase 4)
 
-- Email Transaction History: Users can request their complete transaction history via email for easy access and record-keeping.
-- CSV Transaction History Extraction: Users can download their transaction history in CSV format, providing a versatile data export option for analysis.
-- Receipt Management: Users can upload and retrieve receipts for specific transactions by date, simplifying expense tracking and documentation.
-- Transaction Limit Notifications: Users can set transaction limits and receive alerts when expenses exceed the specified limits, helping them stay within budget.
-- Github Actions Automation: Automated testing, code formatting, and syntax checks have been implemented through Github Actions. A minimum 80% code coverage is required for successful builds, ensuring code quality and testing standards are maintained.
+- Calendar Feature: Allows users to select dates for their transactions directly via a calendar interface.
+- Income Feature: Tracks income in addition to expenses, allowing better financial planning.
+- Multi-Currency Feature: Supports tracking expenses and income in different currencies.
+- Improved Test Cases: Added more robust test cases for increased coverage and reliability.
+- Automated Static Code Analysis & Security Scans: Integrates automatic static code analysis and security scans with GitHub Actions, ensuring code quality.
 
 
 ## What more can be done?
-Please refer to the issue list available [here](https://github.com/anuj672/MyDollarBot-BOTGo/issues) to see what more can be done to make MyDollarBot better. Please refer to the MyDollarBot project present [here](https://github.com/bhaveshittadwar/csc-510-se-group-49/projects) to have a look at the tasks done or in progress
+Check out the issue list [here](https://github.com/anuj672/MyDollarBot-BOTGo/issues) to see what more can be done to make MyDollarBot better. 
 
 ## Demo
 
@@ -113,7 +113,11 @@ Please note: A coverage below 80% will cause the build to fail.
 ## Notes:
 You can download and install the Telegram desktop application for your system from the following site: https://desktop.telegram.org/
 
-
+## Authors (Iteration 5)
+- Sainath Gorige
+- Mona Sree Muppala
+- Vishal Reddy Devireddy
+- 
 <hr>
 <p>Title:'Track My Dollar'</p>
 <p>Version: '4.2'</p>
