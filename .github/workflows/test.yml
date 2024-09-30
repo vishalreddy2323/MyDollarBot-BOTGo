@@ -27,14 +27,9 @@ jobs:
       - name: Run Tests
         run: |
           coverage run -m pytest test/
-          coverage report
-          exit_code=$?
-          if [ $exit_code -eq 0 ]; then
-            echo "COVERAGE_STATUS=Pass" >> $GITHUB_ENV
-          else
-            echo "COVERAGE_STATUS=Fail" >> $GITHUB_ENV
-          fi
-
+          COVERAGE=$(coverage report -m | grep 'TOTAL' | awk '{print $4}' | cut -d '%' -f1)
+          echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV
+      
       - name: Create Coverage Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
@@ -42,9 +37,10 @@ jobs:
           gistID: f90d8ff63781978b73c28561177358b3
           filename: coverage.json
           label: Coverage
-          message: ${{ env.COVERAGE_STATUS }}
-          color: ${{ env.COVERAGE_STATUS == 'Pass' && 'green' || 'red' }}
+          message: ${{ env.COVERAGE }}%  # Set the percentage value
+          color: ${{ env.COVERAGE -ge 70 && 'green' || 'red' }}  # Dynamic color based on threshold
         continue-on-error: true
+
 
       - name: Run Flake8 (Static Code Analysis)
         run: |
