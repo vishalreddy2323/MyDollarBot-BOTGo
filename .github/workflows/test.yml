@@ -38,7 +38,7 @@ jobs:
           filename: coverage.json
           label: Coverage
           message: ${{ env.COVERAGE }}%  # Set the percentage value
-          color: ${{ env.COVERAGE -ge 70 && 'green' || 'red' }}
+          color: ${{ steps.set_coverage.outputs.coverage >= 70 && 'green' || 'red' }}  # Use GitHub Actions conditional syntax
         continue-on-error: true
 
       - name: Run Flake8 (Static Code Analysis)
