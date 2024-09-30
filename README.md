@@ -47,7 +47,7 @@ With simple commands, this bot allows you to:
 - Calendar Feature: Allows users to select dates for their transactions directly via a calendar interface.
 - Income Feature: Tracks income in addition to expenses, allowing better financial planning.
 - Multi-Currency Feature: Supports tracking expenses and income in different currencies.
-- Improved Test Cases: Added more robust test cases for increased coverage and reliability.
+- Improved Test Cases and new badges: Added more robust test cases for increased coverage and Added badges for coverage, static code analysis and Security scans.
 - Automated Static Code Analysis & Security Scans: Integrates automatic static code analysis and security scans with GitHub Actions, ensuring code quality.
 
 
