@@ -16,6 +16,17 @@ This video shows only the new features and enhancement of some older features. A
 [![GitHub contributors](https://img.shields.io/github/contributors/anuj672/MyDollarBot-BOTGo)](https://github.com/anuj672/MyDollarBot-BOTGo/graphs/contributors)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10023576.svg)](https://doi.org/10.5281/zenodo.10023576)
 [![Test and Formatting](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml/badge.svg)](https://github.com/anuj672/MyDollarBot-BOTGo/actions/workflows/test.yml)
+
+- **Coverage**:  
+  [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/f90d8ff63781978b73c28561177358b3/raw/coverage-badge.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+
+- **Static Code Analysis**:  
+  [![Static Code Analysis](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/6e6740fb4d21afa29af5a1eba71cedba/raw/static-code-badge.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+
+- **Security Scans**:  
+  [![Security Scans](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/sainath199/e9d969e042f2cc3e639dbac2a074ba92/raw/security-scan-badge.json)](https://github.com/sainath199/MyDollarBot-BOTGo/actions/workflows/test.yml)
+
+
 <!-- [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo) -->
 [![GitHub issues](https://img.shields.io/github/issues/anuj672/MyDollarBot-BOTGo)](https://github.com/anuj672/MyDollarBot-BOTGo/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/bhaveshittadwar/csc-510-se-group-49)](https://github.com/bhaveshittadwar/csc-510-se-group-49/issues?q=is%3Aissue+is%3Aclosed)
@@ -38,7 +49,7 @@ With simple commands, this bot allows you to:
 - Added pie charts, bar graphs with and without budget lines 
 - Deployment on GCP 
 
-## What's new? (From Phase 3 to Phase 4)
+## What's new? (From Phase 4 to Phase 5)
 
 - Calendar Feature: Allows users to select dates for their transactions directly via a calendar interface.
 - Income Feature: Tracks income in addition to expenses, allowing better financial planning.
