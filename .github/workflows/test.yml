@@ -40,10 +40,11 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: f90d8ff63781978b73c28561177358b3
-          filename: coverage-badge.json
+          filename: coverage.json
           label: Coverage
           message: ${{ env.COVERAGE_STATUS }}
           color: ${{ env.COVERAGE_STATUS == 'Pass' && 'green' || 'red' }}
+        continue-on-error: true
 
       - name: Run Flake8 (Static Code Analysis)
         run: |
@@ -61,7 +62,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 6e6740fb4d21afa29af5a1eba71cedba
-          filename: static-code-badge.json
+          filename: Static_code_analysis.json
           label: Static Code Analysis
           message: ${{ env.STATIC_CODE_STATUS }}
           color: ${{ env.STATIC_CODE_STATUS == 'Pass' && 'green' || 'red' }}
@@ -83,7 +84,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: e9d969e042f2cc3e639dbac2a074ba92
-          filename: security-scan-badge.json
+          filename: Security_scan.json
           label: Security Scan
           message: ${{ env.SECURITY_STATUS }}
           color: ${{ env.SECURITY_STATUS == 'Pass' && 'green' || 'red' }}
