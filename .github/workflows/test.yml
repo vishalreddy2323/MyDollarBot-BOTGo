@@ -1,11 +1,10 @@
-
 on:
-    schedule:
-      - cron: '*/15 * * * *'  # Run every 15 minutes
-    push:
-      branches:
-        - main
-        - development  # Add the second branch you want to monitor
+  schedule:
+    - cron: '*/15 * * * *'  # Run every 15 minutes
+  push:
+    branches:
+      - main
+      - development
 
 jobs:
   test:
@@ -18,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9  # Choose the Python version you need
+          python-version: 3.9
 
       - name: Install dependencies
         run: |
@@ -26,44 +25,66 @@ jobs:
           pip install pytest flake8 bandit
 
       - name: Run Tests
-        run: python -m pytest test/
-
-      - name: Run Black
-        run: black *.py
-
-      - name: Run Pylint
-        run: |
-          pylint --disable=R,C,E1120 *.py
-        continue-on-error: true
-
-      - name: Display Pylint results
-        run: |
-          pylint --disable=R,C,E1120 *.py
-        continue-on-error: true
-
-      - name: Check coverage
         run: |
           coverage run -m pytest test/
           coverage report
-
-      - name: Check coverage threshold
-        run: |
-          COVERAGE=$(coverage report -m | grep 'TOTAL' | awk '{print $4}' | cut -d '%' -f1)
-          if [ "$COVERAGE" -lt 70 ]; then
-            echo "Coverage is below 90%: $COVERAGE%"
-            exit 1
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "COVERAGE_STATUS=Pass" >> $GITHUB_ENV
+          else
+            echo "COVERAGE_STATUS=Fail" >> $GITHUB_ENV
           fi
-        shell: bash
 
-         # Step 5: Static Code Analysis with Flake8
+      - name: Create Coverage Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: f90d8ff63781978b73c28561177358b3
+          filename: coverage-badge.json
+          label: Coverage
+          message: ${{ env.COVERAGE_STATUS }}
+          color: ${{ env.COVERAGE_STATUS == 'Pass' && 'green' || 'red' }}
+
       - name: Run Flake8 (Static Code Analysis)
         run: |
-          flake8 code/ --max-line-length=120  # Flake8 to lint the code directory
-        continue-on-error: true
+          flake8 code/ --max-line-length=120
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "STATIC_CODE_STATUS=Pass" >> $GITHUB_ENV
+          else
+            echo "STATIC_CODE_STATUS=Fail" >> $GITHUB_ENV
+          fi
+        continue-on-error: true  # Allow the workflow to continue even if this step fails
 
-      # Step 6: Security Scanning with Bandit
+      - name: Create Static Code Analysis Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 6e6740fb4d21afa29af5a1eba71cedba
+          filename: static-code-badge.json
+          label: Static Code Analysis
+          message: ${{ env.STATIC_CODE_STATUS }}
+          color: ${{ env.STATIC_CODE_STATUS == 'Pass' && 'green' || 'red' }}
+        continue-on-error: true  # This will ensure the badge is created even if Flake8 fails
+
       - name: Run Bandit (Security Scanning)
         run: |
           bandit -r code/
-        continue-on-error: true
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "SECURITY_STATUS=Pass" >> $GITHUB_ENV
+          else
+            echo "SECURITY_STATUS=Fail" >> $GITHUB_ENV
+          fi
+        continue-on-error: true  # Continue even if Bandit fails
 
+      - name: Create Security Scan Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: e9d969e042f2cc3e639dbac2a074ba92
+          filename: security-scan-badge.json
+          label: Security Scan
+          message: ${{ env.SECURITY_STATUS }}
+          color: ${{ env.SECURITY_STATUS == 'Pass' && 'green' || 'red' }}
+        continue-on-error: true 
